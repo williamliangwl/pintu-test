@@ -1,31 +1,23 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { HorizontalList } from '../components/HorizontalList';
-import { TableData, TableRenderer } from '../components/TableRenderer';
+import { TableRenderer } from '../components/TableRenderer';
 import { TableDataWithButtonLabel, useTableData } from '../hooks/useTableData';
 
 export function ListPage() {
   const [filter, setFilter] = useState('');
-  const { isLoading, isReady, tableData } = useTableData(filter);
-  const [activeTableData, setActiveTableData] = useState<TableData>(tableData[0]);
-
-  useEffect(() => {
-    if (!isReady) {
-      return;
-    }
-
-    setActiveTableData(tableData[0]);
-  }, [isReady]);
+  const { tableData } = useTableData(filter);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   function handleFilterChange(e: ChangeEvent<HTMLInputElement>) {
     setFilter(e.target.value);
   }
 
-  function handleSetActiveTableData(data: TableData) {
-    setActiveTableData(data);
+  function handleSetActiveTableData(index: number) {
+    setActiveIndex(index);
   }
 
-  function renderTableDataButton(data: TableDataWithButtonLabel) {
-    const isSelected = data.type === activeTableData.type;
+  function renderTableDataButton(data: TableDataWithButtonLabel, index: number) {
+    const isSelected = data.type === tableData[activeIndex].type;
     const style = isSelected ? 'bg-blue-500 text-white' : 'text-gray-500';
 
     return (
@@ -33,7 +25,7 @@ export function ListPage() {
         key={data.type}
         className={`${style} font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline ml-3 my-2 text-sm`}
         type="button"
-        onClick={() => handleSetActiveTableData(data)}
+        onClick={() => handleSetActiveTableData(index)}
       >
         {data.buttonLabel}
       </button>
@@ -50,8 +42,8 @@ export function ListPage() {
         onChange={handleFilterChange}
       />
       <HorizontalList data={tableData} renderItem={renderTableDataButton} />
-      <div className="md:flex md:justify-center">
-        <TableRenderer data={activeTableData} />
+      <div className="sm:flex sm:justify-center">
+        <TableRenderer data={tableData[activeIndex]} />
       </div>
     </>
   );

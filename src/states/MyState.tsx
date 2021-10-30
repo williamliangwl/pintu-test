@@ -1,7 +1,7 @@
 import React, { createContext, PropsWithChildren, useContext, useReducer } from 'react';
 import { CRYPTO_CODES } from '../constants';
 import { useGenerateActions } from '../hooks/useGenerateActions';
-import { Actions, AllCryptoItem, Asset, DispatchAction, State, Ticker } from '../types';
+import { Actions, AllCryptoItem, DispatchAction, State, Ticker } from '../types';
 
 const initialState: State = {
   allCrypto: [],

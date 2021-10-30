@@ -32,13 +32,13 @@ export function useTableData(filter: string) {
     tableData: [
       {
         type: 'SPOT_MARKET',
-        data: spotMarket.filter(market => !filter || isInclude(market.assetCode, filter)),
+        data: filter ? spotMarket.filter(market => isInclude(market.assetCode, filter)) : spotMarket,
         filter,
         buttonLabel: 'Spot Market'
       },
       {
         type: 'ALL_CRYPTOS',
-        data: allCrypto.filter(crypto => !filter || (isInclude(crypto.assetCode, filter) || isInclude(crypto.assetName, filter))),
+        data: filter ? allCrypto.filter(crypto => (isInclude(crypto.assetCode, filter) || isInclude(crypto.assetName, filter))) : allCrypto,
         filter,
         buttonLabel: 'All Cryptos'
       },

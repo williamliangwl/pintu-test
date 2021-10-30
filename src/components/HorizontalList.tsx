@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 
 type Props<T> = {
   data: T[];
-  renderItem: (item: T) => ReactElement | null;
+  renderItem: (item: T, index: number) => ReactElement | null;
 };
 
 export function HorizontalList<T>(props: Props<T>) {

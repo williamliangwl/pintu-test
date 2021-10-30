@@ -41,7 +41,7 @@ export function SpotMarketTable(props: Props) {
         </div>
         <div className="table-row-group">
           {filteredData.slice(0, 10).map(item => (
-            <div key={item.assetCode} className="table-row">
+            <div key={item.fullCode} className="table-row">
               <div className="table-cell w-2/5 md:w-500px p-3 align-middle">
                 <label className="text-base font-semibold">{item.assetCode}</label>
                 <label className="text-xs md:text-sm text-gray-600">/{item.cryptoType}</label>
