@@ -16,11 +16,11 @@ export type AllAssetsResponse = {
 
 export type Ticker = {
   symbol: string,
-  priceChange: string,
-  priceChangePercent: string,
-  prevClosePrice: string,
-  lastPrice: string,
-  volume: string,
+  priceChange: number,
+  priceChangePercent: number,
+  prevClosePrice: number,
+  lastPrice: number,
+  volume: number,
 };
 
 export type AssetTickerResponse = Ticker[];

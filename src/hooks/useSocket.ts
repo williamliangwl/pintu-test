@@ -5,22 +5,27 @@ type SocketItem = {
   "e": '24hrMiniTicker';  // Event type
   "E": number;            // Event time
   "s": string;            // Symbol
-  "c": string;            // Close price
+  "c": string;            // Last price
   "o": string;            // Open price
   "h": string;            // High price
   "l": string;            // Low price
   "v": string;            // Total traded base asset volume
   "q": string;            // Total traded quote asset volume
+  "P": string;            // Price change percentage
+  "p": string;            // Price change
 };
 
 export function useSocket() {
   const isInit = useRef(false);
+  const isReady = useRef(false);
+  const isLoading = useRef(false);
   const [data, setData] = useState<AssetTickerResponse>([]);
 
   useEffect(() => {
+    isLoading.current = true;
     const conn = new WebSocket('wss://stream.binance.com:9443/ws');
     conn.onopen = function (evt) {
-      conn.send(JSON.stringify({ method: 'SUBSCRIBE', params: ['!miniTicker@arr@3000ms'], id: 239230 }));
+      conn.send(JSON.stringify({ method: 'SUBSCRIBE', params: ['!ticker@arr@3000ms'], id: 239230 }));
       isInit.current = true;
     };
     conn.onmessage = function (evt) {
@@ -30,16 +35,18 @@ export function useSocket() {
         return;
       }
 
-      setData(JSON.parse(evt.data).map((item: SocketItem) => ({
+      setData((JSON.parse(evt.data) as SocketItem[]).map<AssetTickerResponse[number]>((item: SocketItem) => ({
         symbol: item.s,
-        priceChange: +item.c - +item.o,
-        priceChangePercent: +item.c / +item.o,
-        prevClosePrice: item.c,
-        lastPrice: item.c,
-        volume: item.q,
+        priceChange: +item.p,
+        priceChangePercent: +item.P,
+        prevClosePrice: +item.c,
+        lastPrice: +item.c,
+        volume: +item.q,
       })));
+      isLoading.current = false;
+      isReady.current = true;
     };
   }, []);
 
-  return { data };
+  return { data, isReady: isReady.current, isLoading: isLoading.current };
 }

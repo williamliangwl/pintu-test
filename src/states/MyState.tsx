@@ -8,15 +8,6 @@ const initialState: State = {
   spotMarket: [],
 };
 
-const initialTicker: Ticker = {
-  lastPrice: '0',
-  prevClosePrice: '0',
-  priceChange: '0',
-  priceChangePercent: '0',
-  symbol: '',
-  volume: '0',
-};
-
 const MyStateContext = createContext<State>(initialState);
 const MyStateActionContext = createContext<Actions>(null!);
 
@@ -52,7 +43,24 @@ function updateAssets(state: State, data: Ticker[]): State {
     };
   });
 
-  return { ...state, spotMarket };
+  // Update allAssets
+  const allCrypto = state.allCrypto.map(c => {
+    const relatedMarkets = spotMarket.filter(m => m.assetCode === c.assetCode);
+    const count = relatedMarkets.length;
+
+    if (count === 0) {
+      return c;
+    }
+
+    return {
+      ...c,
+      price: relatedMarkets.reduce((total, curr) => total + curr.lastPrice, 0) / count,
+      priceChangePercentage: relatedMarkets.reduce((total, curr) => total + curr.priceChangePercent, 0) / count,
+      volume: relatedMarkets.reduce((total, curr) => total + curr.volume, 0) / count,
+    };
+  });
+
+  return { ...state, spotMarket, allCrypto };
 }
 
 export function StateProvider(props: PropsWithChildren<{}>) {
