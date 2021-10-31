@@ -1,12 +1,9 @@
+import classNames from "classnames";
 import { PriceDirection } from "../types";
 
 export function animatePriceDirection(direction: PriceDirection) {
-  switch (direction) {
-    case 'up':
-      return 'animate-flash-green';
-    case 'down':
-      return 'animate-flash-red';
-    default:
-      return '';
-  }
+  return classNames({
+    'animate-flash-green': direction === 'up',
+    'animate-flash-red': direction === 'down'
+  })
 }

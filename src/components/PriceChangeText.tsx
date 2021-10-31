@@ -1,3 +1,6 @@
+import classNames from 'classnames';
+import { Text } from './Text';
+
 type Props = {
   priceChange: number;
 };
@@ -6,7 +9,7 @@ export function PriceChangeText(props: Props) {
   const { priceChange } = props;
   const isPositive = priceChange > 0;
   const symbol = isPositive ? '+' : '';
-  const style = isPositive ? 'text-green-600' : priceChange === 0 ? '' : 'text-red-600';
+  const style = classNames({ 'text-green-600': isPositive, 'text-red-600': priceChange < 0 });
 
-  return <label className={style}>{`${symbol}${priceChange.toFixed(2)}%`}</label>;
+  return <Text variant="sm" className={style}>{`${symbol}${priceChange.toFixed(2)}%`}</Text>;
 }

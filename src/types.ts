@@ -1,3 +1,7 @@
+export type PropsWithClassName = {
+  className?: string;
+};
+
 export type CryptoCurrencyAsset = {
   id: string,
   assetCode: string,
