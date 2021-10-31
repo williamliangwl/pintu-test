@@ -4,7 +4,30 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        'flash-red': {
+          '0%, 100%': {
+            color: 'black',
+          },
+          '25%, 75%': {
+            color: 'red',
+          },
+        },
+        'flash-green': {
+          '0%, 100%': {
+            color: 'black',
+          },
+          '25%, 75%': {
+            color: 'green',
+          },
+        },
+      },
+      animation: {
+        'flash-red': 'flash-red 1.5s ease-in-out',
+        'flash-green': 'flash-green 1.5s ease-in-out',
+      },
+    },
   },
   variants: {
     extend: {},

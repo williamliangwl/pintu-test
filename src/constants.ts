@@ -46,3 +46,5 @@ export const ALL_CRYPTO_TAGS = [
     value: 'storage-zone'
   },
 ];
+
+export const ITEM_LIMIT = 15;

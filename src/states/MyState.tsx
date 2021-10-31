@@ -1,7 +1,7 @@
 import React, { createContext, PropsWithChildren, useContext, useReducer } from 'react';
 import { CRYPTO_CODES } from '../constants';
 import { useGenerateActions } from '../hooks/useGenerateActions';
-import { Actions, AllCryptoItem, DispatchAction, State, Ticker } from '../types';
+import { Actions, AllCryptoItem, DispatchAction, PriceDirection, SpotMarketItem, State, Ticker } from '../types';
 
 const initialState: State = {
   allCrypto: [],
@@ -21,6 +21,7 @@ function reducer(state: State, action: DispatchAction): State {
           volume: 0,
           priceChangePercentage: 0,
           price: 0,
+          priceDirection: 'neutral',
         })),
       };
     case 'setTickers': {
@@ -33,32 +34,47 @@ function reducer(state: State, action: DispatchAction): State {
 
 function updateAssets(state: State, data: Ticker[]): State {
   // Update spotMarkets
-  const spotMarket: State['spotMarket'] = data.map(item => {
-    const [assetCode, cryptoType] = item.symbol.split(new RegExp(`(${CRYPTO_CODES.join('|')})$`));
-    return {
-      ...item,
-      assetCode,
-      cryptoType,
-      fullCode: item.symbol,
-    };
-  });
+  const spotMarket: State['spotMarket'] = data
+    .map(item => {
+      const [assetCode, cryptoType] = item.symbol.split(new RegExp(`(${CRYPTO_CODES.join('|')})$`));
+      const existingItem = state.spotMarket.find(i => i.fullCode === item.symbol);
+      let priceDirection: PriceDirection = 'neutral';
+      if (existingItem) {
+        priceDirection =
+          existingItem.lastPrice < item.lastPrice ? 'up' : existingItem.lastPrice > item.lastPrice ? 'down' : 'neutral';
+      }
+
+      return {
+        ...item,
+        assetCode,
+        cryptoType,
+        fullCode: item.symbol,
+        priceDirection,
+      } as SpotMarketItem;
+    })
+    .sort((a, b) => (a.volume > b.volume ? -1 : 1));
 
   // Update allAssets
-  const allCrypto = state.allCrypto.map(c => {
-    const relatedMarkets = spotMarket.filter(m => m.assetCode === c.assetCode);
-    const count = relatedMarkets.length;
+  const allCrypto = state.allCrypto
+    .map(c => {
+      const relatedMarkets = spotMarket.filter(m => m.assetCode === c.assetCode);
+      const count = relatedMarkets.length;
 
-    if (count === 0) {
-      return c;
-    }
+      if (count === 0) {
+        return c;
+      }
 
-    return {
-      ...c,
-      price: relatedMarkets.reduce((total, curr) => total + curr.lastPrice, 0) / count,
-      priceChangePercentage: relatedMarkets.reduce((total, curr) => total + curr.priceChangePercent, 0) / count,
-      volume: relatedMarkets.reduce((total, curr) => total + curr.volume, 0) / count,
-    };
-  });
+      const newPrice = relatedMarkets.reduce((total, curr) => total + curr.lastPrice, 0) / count;
+
+      return {
+        ...c,
+        price: newPrice,
+        priceChangePercentage: relatedMarkets.reduce((total, curr) => total + curr.priceChangePercent, 0) / count,
+        volume: relatedMarkets.reduce((total, curr) => total + curr.volume, 0) / count,
+        priceDirection: newPrice > c.price ? 'up' : newPrice < c.price ? 'down' : 'neutral',
+      } as AllCryptoItem;
+    })
+    .sort((a, b) => (a.volume > b.volume ? -1 : 1));
 
   return { ...state, spotMarket, allCrypto };
 }

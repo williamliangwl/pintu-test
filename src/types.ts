@@ -25,16 +25,20 @@ export type Ticker = {
 
 export type AssetTickerResponse = Ticker[];
 
+export type PriceDirection = 'up' | 'down' | 'neutral';
+
 export type SpotMarketItem = Ticker & {
   fullCode: string;
   assetCode: string;
   cryptoType: string;
+  priceDirection: PriceDirection;
 };
 
 export type AllCryptoItem = CryptoCurrencyAsset & {
   price: number;
   volume: number;
   priceChangePercentage: number;
+  priceDirection: PriceDirection;
 };
 
 export type Asset = CryptoCurrencyAsset & Ticker;

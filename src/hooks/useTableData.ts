@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { TableData } from "../components/TableRenderer";
+import { TableData } from "../components/TableRenderer/TableRenderer";
 import { useMyActions, useMyState } from "../states/MyState";
 import { useFetchAllAssets } from "./useFetchAllAssets";
 import { useSocket } from "./useSocket";

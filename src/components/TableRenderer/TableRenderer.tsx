@@ -1,4 +1,4 @@
-import { AllCryptoItem, SpotMarketItem } from '../types';
+import { AllCryptoItem, SpotMarketItem } from '../../types';
 import { AllCryptoTable } from './AllCryptoTable';
 import { SpotMarketTable } from './SpotMarketTable';
 
