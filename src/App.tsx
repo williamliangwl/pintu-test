@@ -1,5 +1,4 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
-import './App.css';
 import { ListPage } from './pages/ListPage';
 import { StateProvider } from './states/MyState';
 

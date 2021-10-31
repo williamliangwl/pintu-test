@@ -3,7 +3,7 @@ export function formatCurrencyUSD(num: number) {
 }
 
 export function formatVolume(volume: number) {
-  const dividerObj = volume > 1000000 ? {
+  const dividerObj = volume >= 1000000 ? {
     divider: 1000000,
     unit: 'M'
    } : {

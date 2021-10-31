@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { Button } from '../components/Button';
 import { HorizontalList } from '../components/HorizontalList';
 import { TableRenderer } from '../components/TableRenderer/TableRenderer';
 import { TableDataWithButtonLabel, useTableData } from '../hooks/useTableData';
@@ -21,14 +22,12 @@ export function ListPage() {
     const style = isSelected ? 'bg-blue-500 text-white' : 'text-gray-500';
 
     return (
-      <button
+      <Button
         key={data.type}
-        className={`${style} font-bold py-1 px-3 rounded focus:outline-none focus:shadow-outline ml-3 my-2 text-sm`}
-        type="button"
-        onClick={() => handleSetActiveTableData(index)}
-      >
-        {data.buttonLabel}
-      </button>
+        text={data.buttonLabel}
+        onPress={() => handleSetActiveTableData(index)}
+        className={`${style} ml-3`}
+      />
     );
   }
 
@@ -43,7 +42,7 @@ export function ListPage() {
           onChange={handleFilterChange}
         />
       </div>
-      <HorizontalList data={tableData} renderItem={renderTableDataButton} />
+      <HorizontalList data={tableData} renderItem={renderTableDataButton} className="my-2" />
       <div className="sm:flex sm:justify-center">
         <TableRenderer data={tableData[activeIndex]} />
       </div>
