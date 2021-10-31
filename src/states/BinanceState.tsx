@@ -1,17 +1,25 @@
-import React, { createContext, PropsWithChildren, useContext, useReducer } from 'react';
+import { createContext, PropsWithChildren, useContext, useReducer } from 'react';
 import { CRYPTO_CODES } from '../constants';
-import { useGenerateActions } from '../hooks/useGenerateActions';
-import { Actions, AllCryptoItem, DispatchAction, PriceDirection, SpotMarketItem, State, Ticker } from '../types';
+import { useGenerateBinanceActions } from '../hooks/useGenerateBinanceActions';
+import {
+  BinanceActions,
+  AllCryptoItem,
+  DispatchBinanceAction,
+  PriceDirection,
+  SpotMarketItem,
+  BinanceState,
+  Ticker,
+} from '../types';
 
-const initialState: State = {
+const initialState: BinanceState = {
   allCrypto: [],
   spotMarket: [],
 };
 
-const MyStateContext = createContext<State>(initialState);
-const MyStateActionContext = createContext<Actions>(null!);
+const BinanceStateContext = createContext<BinanceState>(initialState);
+const BinanceStateActionContext = createContext<BinanceActions>(null!);
 
-function reducer(state: State, action: DispatchAction): State {
+function reducer(state: BinanceState, action: DispatchBinanceAction): BinanceState {
   switch (action.type) {
     case 'setAllAssets':
       return {
@@ -32,9 +40,9 @@ function reducer(state: State, action: DispatchAction): State {
   }
 }
 
-function updateAssets(state: State, data: Ticker[]): State {
+function updateAssets(state: BinanceState, data: Ticker[]): BinanceState {
   // Update spotMarkets
-  const spotMarket: State['spotMarket'] = data
+  const spotMarket: BinanceState['spotMarket'] = data
     .map(item => {
       const [assetCode, cryptoType] = item.symbol.split(new RegExp(`(${CRYPTO_CODES.join('|')})$`));
       const existingItem = state.spotMarket.find(i => i.fullCode === item.symbol);
@@ -79,22 +87,22 @@ function updateAssets(state: State, data: Ticker[]): State {
   return { ...state, spotMarket, allCrypto };
 }
 
-export function StateProvider(props: PropsWithChildren<{}>) {
+export function BinanceStateProvider(props: PropsWithChildren<{}>) {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
-  const actions = useGenerateActions(state, dispatch);
+  const actions = useGenerateBinanceActions(state, dispatch);
 
   return (
-    <MyStateContext.Provider value={state}>
-      <MyStateActionContext.Provider value={actions}>{children}</MyStateActionContext.Provider>
-    </MyStateContext.Provider>
+    <BinanceStateContext.Provider value={state}>
+      <BinanceStateActionContext.Provider value={actions}>{children}</BinanceStateActionContext.Provider>
+    </BinanceStateContext.Provider>
   );
 }
 
-export function useMyState() {
-  return useContext(MyStateContext);
+export function useBinanceState() {
+  return useContext(BinanceStateContext);
 }
 
-export function useMyActions() {
-  return useContext(MyStateActionContext);
+export function useBinanceActions() {
+  return useContext(BinanceStateActionContext);
 }

@@ -15,7 +15,7 @@ type SocketItem = {
   "p": string;            // Price change
 };
 
-export function useSocket() {
+export function useBinanceTickerSocket() {
   const isInit = useRef(false);
   const isReady = useRef(false);
   const isLoading = useRef(false);

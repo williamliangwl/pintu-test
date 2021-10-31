@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { TableData } from "../components/TableRenderer/TableRenderer";
-import { useMyActions, useMyState } from "../states/MyState";
+import { useBinanceActions, useBinanceState } from "../states/BinanceState";
 import { isInclude } from "../utils/stringUtil";
 import { useFetchAllAssets } from "./useFetchAllAssets";
-import { useSocket } from "./useSocket";
+import { useBinanceTickerSocket } from "./useBinanceTickerSocket";
 
 export type TableDataWithButtonLabel = TableData & {
   buttonLabel: string;
@@ -11,9 +11,9 @@ export type TableDataWithButtonLabel = TableData & {
 
 export function useTableData(filter: string) {
   const { assets, isLoading: isAssetLoading, isReady: isAssetReady } = useFetchAllAssets();
-  const { data: tickers, isLoading: isTickersLoading, isReady: isTickersReady } = useSocket();
-  const { allCrypto, spotMarket } = useMyState();
-  const { setAllAssets, setTickers } = useMyActions();
+  const { data: tickers, isLoading: isTickersLoading, isReady: isTickersReady } = useBinanceTickerSocket();
+  const { allCrypto, spotMarket } = useBinanceState();
+  const { setAllAssets, setTickers } = useBinanceActions();
 
   useEffect(() => {
     if (!assets || !assets.data) {

@@ -3,10 +3,11 @@ import { Button } from '../components/Button';
 import { HorizontalList } from '../components/HorizontalList';
 import { TableRenderer } from '../components/TableRenderer/TableRenderer';
 import { TableDataWithButtonLabel, useTableData } from '../hooks/useTableData';
+import LoadingImage from '../assets/loading.gif';
 
 export function ListPage() {
   const [filter, setFilter] = useState('');
-  const { tableData } = useTableData(filter);
+  const { isLoading, tableData } = useTableData(filter);
   const [activeIndex, setActiveIndex] = useState(0);
 
   function handleFilterChange(e: ChangeEvent<HTMLInputElement>) {
@@ -29,6 +30,10 @@ export function ListPage() {
         className={`${style} ml-3`}
       />
     );
+  }
+
+  if (isLoading) {
+    return <img className="w-full sm:w-1/3 m-auto" src={LoadingImage} />;
   }
 
   return (

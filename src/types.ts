@@ -45,20 +45,18 @@ export type AllCryptoItem = CryptoCurrencyAsset & {
   priceDirection: PriceDirection;
 };
 
-export type Asset = CryptoCurrencyAsset & Ticker;
-
 // REDUCERS
-export type State = {
+export type BinanceState = {
   spotMarket: SpotMarketItem[];
   allCrypto: AllCryptoItem[];
 };
 
-export type Actions = {
+export type BinanceActions = {
   setAllAssets(assets: CryptoCurrencyAsset[]): void;
   setTickers(assets: Ticker[]): void;
 };
 
-export type DispatchAction =
+export type DispatchBinanceAction =
   | {
       type: 'setAllAssets';
       assets: CryptoCurrencyAsset[];

@@ -1,16 +1,16 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ListPage } from './pages/ListPage';
-import { StateProvider } from './states/MyState';
+import { BinanceStateProvider } from './states/BinanceState';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <StateProvider>
+    <BinanceStateProvider>
       <QueryClientProvider client={queryClient}>
         <ListPage />
       </QueryClientProvider>
-    </StateProvider>
+    </BinanceStateProvider>
   );
 }
 

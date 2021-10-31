@@ -1,9 +1,9 @@
 import { Dispatch, useCallback, useMemo } from "react";
-import { Actions, CryptoCurrencyAsset, DispatchAction, State, Ticker } from "../types";
+import { BinanceActions, CryptoCurrencyAsset, DispatchBinanceAction, BinanceState, Ticker } from "../types";
 
-export function useGenerateActions(
-  _: State,
-  dispatch: Dispatch<DispatchAction>
+export function useGenerateBinanceActions(
+  _: BinanceState,
+  dispatch: Dispatch<DispatchBinanceAction>
 ) {
 
   const setAllAssets = useCallback((assets: CryptoCurrencyAsset[]) => {
@@ -20,7 +20,7 @@ export function useGenerateActions(
     })
   }, []);
 
-  return useMemo<Actions>(
+  return useMemo<BinanceActions>(
     () => ({
       setAllAssets: setAllAssets,
       setTickers: setTickers
