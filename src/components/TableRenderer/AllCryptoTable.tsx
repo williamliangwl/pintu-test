@@ -7,7 +7,15 @@ import { Button } from '../Button';
 import { HorizontalList } from '../HorizontalList';
 import { PaginationList } from '../PaginationList';
 import { PriceChangeText } from '../PriceChangeText';
-import { Table, TableColumn, TableHeaderCell, TableHeaderGroup, TableRow, TableRowGroup } from '../Table';
+import {
+  Table,
+  TableColumn,
+  TableEmptyState,
+  TableHeaderCell,
+  TableHeaderGroup,
+  TableRow,
+  TableRowGroup,
+} from '../Table';
 import { Text } from '../Text';
 
 type Props = {
@@ -59,6 +67,7 @@ export function AllCryptoTable(props: Props) {
           </TableHeaderCell>
         </TableHeaderGroup>
         <TableRowGroup>
+          {filteredData.length === 0 && <TableEmptyState />}
           {filteredData.slice(startIndex, startIndex + ITEM_LIMIT).map(item => (
             <TableRow key={item.assetCode}>
               <TableColumn className="w-2/5 sm:w-500px">

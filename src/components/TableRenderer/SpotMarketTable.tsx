@@ -7,7 +7,15 @@ import { Button } from '../Button';
 import { HorizontalList } from '../HorizontalList';
 import { PaginationList } from '../PaginationList';
 import { PriceChangeText } from '../PriceChangeText';
-import { Table, TableColumn, TableHeaderCell, TableHeaderGroup, TableRow, TableRowGroup } from '../Table';
+import {
+  Table,
+  TableColumn,
+  TableEmptyState,
+  TableHeaderCell,
+  TableHeaderGroup,
+  TableRow,
+  TableRowGroup,
+} from '../Table';
 import { Text } from '../Text';
 
 type Props = {
@@ -93,6 +101,7 @@ export function SpotMarketTable(props: Props) {
           ))}
         </TableRowGroup>
       </Table>
+      {filteredData.length === 0 && <TableEmptyState />}
       <div className="flex justify-end mt-1.5 border-t border-solid border-gray-100 sm:border-none">
         <PaginationList totalPages={Math.ceil(filteredData.length / ITEM_LIMIT)} onPageSelected={handleSetPage} />
       </div>

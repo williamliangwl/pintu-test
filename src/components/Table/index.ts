@@ -4,3 +4,4 @@ export * from './TableHeaderCell';
 export * from './TableHeaderGroup';
 export * from './TableRow';
 export * from './TableRowGroup';
+export * from './TableEmptyState';
