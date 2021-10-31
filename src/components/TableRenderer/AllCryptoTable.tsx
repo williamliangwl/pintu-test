@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ALL_CRYPTO_TAGS, EXCHANGE_RATE_XBT_USD, ITEM_LIMIT } from '../../constants';
 import { AllCryptoItem } from '../../types';
 import { animatePriceDirection } from '../../utils/animationUtil';
+import { formatCurrencyUSD, formatVolume } from '../../utils/formattingUtil';
 import { Button } from '../Button';
 import { HorizontalList } from '../HorizontalList';
 import { PaginationList } from '../PaginationList';
@@ -70,20 +71,20 @@ export function AllCryptoTable(props: Props) {
               </TableColumn>
               <TableColumn className="w-2/5 sm:hidden">
                 <Text variant="sm" className={`${animatePriceDirection(item.priceDirection)}`}>
-                  ${(item.price * EXCHANGE_RATE_XBT_USD).toFixed(2)}
+                  {formatCurrencyUSD(item.price * EXCHANGE_RATE_XBT_USD)}
                 </Text>
                 <Text variant="xs">{item.priceChangePercentage.toFixed(2)}%</Text>
               </TableColumn>
               <TableColumn className="hidden sm:table-cell sm:visible">
                 <Text variant="sm" className={`${animatePriceDirection(item.priceDirection)}`}>
-                  ${(item.price * EXCHANGE_RATE_XBT_USD).toFixed(2)}
+                  {formatCurrencyUSD(item.price * EXCHANGE_RATE_XBT_USD)}
                 </Text>
               </TableColumn>
               <TableColumn className="sm:table-cell w-1/5 hidden sm:visible">
                 <PriceChangeText priceChange={item.priceChangePercentage} />
               </TableColumn>
               <TableColumn>
-                <Text variant="sm">{item.volume.toFixed(2)}</Text>
+                <Text variant="sm">{formatVolume(item.volume)}</Text>
               </TableColumn>
             </TableRow>
           ))}

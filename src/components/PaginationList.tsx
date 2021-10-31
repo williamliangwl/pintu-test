@@ -21,13 +21,15 @@ export const PaginationList = React.memo(
 
     function renderItem(page: number, index: number) {
       const isSelected = page === selectedPage;
+      const disabled = page === 0;
       const style = isSelected ? 'bg-gray-500 text-white' : 'text-gray-500';
       return (
         <Button
           key={page || `${page}${index}`}
-          text={page.toString() || '...'}
+          text={disabled ? '...' : page.toString()}
           onPress={() => setSelectedPage(page)}
           className={`${style} py-1.5 ml-2 my-2`}
+          disabled={disabled}
         />
       );
     }

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CRYPTO_CODES, EXCHANGE_RATE_XBT_USD, ITEM_LIMIT } from '../../constants';
 import { SpotMarketItem } from '../../types';
 import { animatePriceDirection } from '../../utils/animationUtil';
+import { formatCurrencyUSD, formatVolume } from '../../utils/formattingUtil';
 import { Button } from '../Button';
 import { HorizontalList } from '../HorizontalList';
 import { PaginationList } from '../PaginationList';
@@ -65,7 +66,7 @@ export function SpotMarketTable(props: Props) {
                   /{item.cryptoType}
                 </Text>
                 <Text className="text-xs text-gray-600 sm:hidden" variant="custom">
-                  Vol {item.volume.toFixed(2)}
+                  Vol {formatVolume(item.volume)}
                 </Text>
               </TableColumn>
               <TableColumn className="w-2/5">
@@ -79,14 +80,14 @@ export function SpotMarketTable(props: Props) {
                   /
                 </Text>
                 <Text variant="custom" className="text-xs sm:inline-block sm:text-base sm:text-gray-600">
-                  ${(item.lastPrice * EXCHANGE_RATE_XBT_USD).toFixed(2)}
+                  {formatCurrencyUSD(item.lastPrice * EXCHANGE_RATE_XBT_USD)}
                 </Text>
               </TableColumn>
               <TableColumn className="sm:table-cell w-1/5 sm:text-base">
                 <PriceChangeText priceChange={item.priceChangePercent} />
               </TableColumn>
               <TableColumn className="sm:table-cell hidden sm:visible">
-                <Text variant="sm">{item.volume.toFixed(2)}</Text>
+                <Text variant="sm">{formatVolume(item.volume)}</Text>
               </TableColumn>
             </TableRow>
           ))}
