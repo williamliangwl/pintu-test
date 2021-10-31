@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+# Pintu Test
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Hosted
+Hosted link: https://master.d3k86kfey4hi86.amplifyapp.com/
 
-In the project directory, you can run:
+## Run this project
+`yarn && yarn start`
 
-### `yarn start`
+## Features
+- Fetch [Binance All Assets API](https://www.binance.com/bapi/asset/v2/public/asset/asset/get-all-asset)
+- WebSocket to [Binance Ticker](https://github.com/binance/binance-spot-api-docs/blob/master/web-socket-streams.md#all-market-mini-tickers-stream). It is updated every 3 seconds.
+- Responsive design
+- Simple unit tests
+- Search based on code / name
+- Filter by tag
+- Pagination
+- Automated deployment through AWS Amplify
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## "Code" of Conduct
+- Create and reuse components as much as possible, while still ensuring component's extensibility
+- Use the "right" style on the "right" component, e.g. text styling is better to be put as part of component / element related to text.
+- When adding a new dependency, consider its bundle size and the benefits it brings. For example, using [`react-lottie`](https://github.com/chenqingspring/react-lottie) doesn't suit this project as we have less animation needed. In this case, we can use GIF instead.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Assumptions
+- Price, 24H Change and Volume of `All Cryptos` tab are average of related cryptos from the `Spot Market`. Thus I made 2 tabs there because I think it makes more sense to be separated.
+- Images of crypto assets are broken. It looks like blocked by the Binance's Cloudfront.
+- To calculate price, it is multiplied by hardcoded exchange rate: [6172.5](https://github.com/williamliangwl/pintu-test/blob/master/src/constants.ts#L3)
+- Tags in `Spot Market` and `All Cryptos` are ok-to-be-hardcoded because it is seldom changed.
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Improvement opportunities
+If there were more time, I would:
+- Add more tests, such as snapshot tests, integration tests
+- Handling API error
+- Add Storybook (having a hard time to integrate it with Tailwind. It is indeed possible to import the Tailwind through CDN though)
+- Find out how to calculate the price and market cap properly
