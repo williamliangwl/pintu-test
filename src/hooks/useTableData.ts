@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { TableData } from "../components/TableRenderer/TableRenderer";
 import { useMyActions, useMyState } from "../states/MyState";
+import { isInclude } from "../utils/stringUtil";
 import { useFetchAllAssets } from "./useFetchAllAssets";
 import { useSocket } from "./useSocket";
 
@@ -44,8 +45,4 @@ export function useTableData(filter: string) {
       },
     ] as TableDataWithButtonLabel[]
   };
-}
-
-function isInclude(str: string, token: string) {
-  return str.toLowerCase().includes(token.toLowerCase());
 }
